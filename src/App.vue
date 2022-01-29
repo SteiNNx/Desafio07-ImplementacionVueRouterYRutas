@@ -37,13 +37,31 @@
       </div>
     </nav>
     <!-- ROUTER VIEW QUE CARGARÁ LAS VISTAS (INICIO, SOBRE MÍ, CONTACTO, ETC.) -->
-    <router-view></router-view>
+    <transition :name="transitionName" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      transitionName: "",
+    };
+  },
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path;
+      const fromDepth = from.path;
+      if (fromDepth === "/" && toDepth === "/contacto") {
+        this.transitionName = "fade";
+      } else {
+        this.transitionName = "";
+      }
+    },
+  },
 };
 </script>
 
@@ -56,7 +74,16 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 #menu-v8 a {
   text-shadow: 1px 1px #000;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

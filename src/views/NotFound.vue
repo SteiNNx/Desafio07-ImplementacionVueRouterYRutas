@@ -19,3 +19,15 @@
     </header>
   </div>
 </template>
+<script>
+export default {
+  name: "NotFound",
+  created() {
+    const { fullPath } = this.$route;
+    const routesHomeRedirect = ["/home", "/inicio", "/portada"];
+    if (routesHomeRedirect.some((route) => route == fullPath)) {
+      this.$router.push("/");
+    }
+  },
+};
+</script>
